@@ -8,6 +8,7 @@ import { useAuthStore } from '../../../../store/auth'
 import UserCreatePayments from '../UserCreatePayments'
 import { UserPaymentsValues } from '../../../../interfaces/paymentsInterfaces'
 import PaymentCard from './PaymentCard'
+import { useTitle } from '../../../../store/title'
 
 const UserPayments = () => {
   const [isCreateViewOpen, setIsCreateViewOpen] = useState(false)
@@ -18,6 +19,9 @@ const UserPayments = () => {
   const userId = useAuthStore((state) => state.id)
   const [showModal, setShowModal] = useState(false)
   const [paymentData, setPaymentData] = useState<UserPaymentsValues>()
+
+  const setTitle = useTitle((state) => state.setTitle)
+  setTitle('My payments')
 
   const errorMessage =
     'Error retrieving payment data from the API/server. <br /> Please check your internet connection or try again later.'

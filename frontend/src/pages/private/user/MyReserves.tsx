@@ -3,10 +3,14 @@ import { useAuthStore } from '../../../store/auth'
 import { GetReserve } from '../../../interfaces/reserveInterface'
 import getReserveService from '../../../services/getReservesService'
 import UserAmenities from './UserAmenities'
+import { useTitle } from '../../../store/title'
 
 const MyReserves = () => {
   const [create, setCreate] = useState(false)
   const [reserves, setReserves] = useState<GetReserve[]>()
+
+  const setTitle = useTitle((state) => state.setTitle)
+  setTitle('My reservations')
 
   const userId = useAuthStore((state) => state.id)
 
@@ -24,12 +28,12 @@ const MyReserves = () => {
     <div>
       {!create ? (
         <>
-          <div className="flex font-bold text-xl text-blueDark ml-11 mt-10">
-            <div className="flex gap-x-6 text-blueDark font-bold text-xl items-center">
+          <div className="flex font-bold text-xl text-blueDark ml-11 sm:mt-10">
+            <div className=" hidden sm:flex gap-x-6 text-blueDark font-bold text-xl items-center">
               <h3>My reservations</h3>
             </div>
           </div>
-          <div className="mx-12">
+          <div className=" mx-4 sm:mx-12">
             <table className="w-full text-left my-12">
               <thead>
                 <tr className=" border-b border-b-greyLight">

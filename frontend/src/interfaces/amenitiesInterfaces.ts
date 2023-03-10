@@ -23,6 +23,7 @@ export interface EditConsortium {
 
 export interface ConsortiumCreationValues extends Omit<FormValues, 'amenities'> {
   admin: string | undefined
+  img?: string
   amenities: string[]
 }
 

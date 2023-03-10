@@ -9,6 +9,8 @@ import createNotificationsService from '../../../../services/createNotifications
 import getNotificationsService from '../../../../services/getNotificationsService'
 import Accordion from '../../../../components/Accordion'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useTitle } from '../../../../store/title'
+import getConsortiumService from '../../../../services/getConsortiumService'
 
 interface Entrance {
   subject: string
@@ -26,6 +28,16 @@ const ConsortiumEvents = () => {
   const navigate = useNavigate()
 
   const { id } = useParams()
+
+  const setTitle = useTitle((state) => state.setTitle)
+
+  const getConsortium = async () => {
+    setTitle('Consortium')
+    if (id) {
+      const consortium = await getConsortiumService(id)
+      setTitle(consortium.address)
+    }
+  }
 
   const {
     register,
@@ -67,6 +79,11 @@ const ConsortiumEvents = () => {
       getNotifications(id)
     }
   }, [id, restart])
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    getConsortium()
+  }, [])
 
   return (
     <div className=" min-h-full md:min-h-screen m-[50px] max-w-[1100px] mx-auto px-6">

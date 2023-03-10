@@ -143,19 +143,26 @@ const UserCreatePayments = ({ setIsCreateViewOpen, setIsCreatedPayment }: Props)
   }
 
   return (
-    <div className="overflow-hidden h-[560px]">
-      <DynamicStatusView
-        loading={loading}
-        loadingMessage={'Please wait while we save <br />your payment information...'}
-        isSuccess={isSuccess}
-        successMessage={'Success! Your payment <br />has been saved.'}
-        error={error}
-        errorMessage={'The payment could not be processed. <br />Please try again later.'}
-      />
+    <div className="overflow-hidden min-h-[560px] md:h-[560px] pb-12 md:pb-0">
+      {(loading || error || isSuccess) && (
+        <div className="h-[560px]">
+          <DynamicStatusView
+            loading={loading}
+            loadingMessage={'Please wait while we save <br />your payment information...'}
+            isSuccess={isSuccess}
+            successMessage={'Success! Your payment <br />has been saved.'}
+            error={error}
+            errorMessage={'The payment could not be processed. <br />Please try again later.'}
+          />
+        </div>
+      )}
 
       <div className={isPaymentViewExit ? 'animate-slideOutLeft' : ''}>
         <div className="w-full pl-11 pt-11 pb-5">
-          <div className="flex gap-x-6 text-blueDark font-bold text-xl items-center">
+          <div
+            className="flex gap-x-6 text-blueDark
+                            font-bold text-xl items-center"
+          >
             <button
               className=""
               onClick={() => {
@@ -172,14 +179,52 @@ const UserCreatePayments = ({ setIsCreateViewOpen, setIsCreatedPayment }: Props)
 
         <form
           onSubmit={handleSubmit}
-          className="w-full pl-7 pr-16 mt-10"
+          className="w-full px-14 md:px-[5vw] mt-10"
         >
           <div className="flex flex-row justify-between w-full">
-            <div className="w-[363px]">
-              <div className="w-full h-[40px] rounded-lg px-4 pt-2 pb-2.5 text-sm text-black font-normal border-2 border-black mb-7 bg-white">
+            <div className="md:max-w-[363px] w-full">
+              <div
+                className="w-full h-[40px] rounded-lg
+                                px-4 pt-2 pb-2.5 text-sm
+                                text-black font-normal
+                                border-[1.5px] border-bluishBlack
+                                mb-7 bg-white"
+              >
                 {user?.apt && !isNaN(parseInt(user?.apt))
                   ? `${parseInt(user?.apt)} | Prop.: ${user?.lastname ?? ''}`
                   : `Prop.: ${user?.lastname ?? ''}`}
+              </div>
+
+              <div className={'md:hidden w-full items-center pb-7'}>
+                <div
+                  className={`md:pl-4 flex flex-col gap-y-8 w-full ${
+                    payment.image !== '' ? 'h-full justify-center' : 'gap-y-4'
+                  }`}
+                >
+                  <select
+                    onChange={(e) => {
+                      handleChange(e)
+                    }}
+                    name={'paymentMethod'}
+                    value={payment.paymentMethod}
+                    className="w-full h-[40px] rounded-lg
+                              px-4 pt-2 pb-2.5 text-sm
+                              text-grey italic font-normal
+                              border-[1.5px] border-bluishBlack"
+                  >
+                    <option value={PaymentMethodEnum.Transfer}>Transfer</option>
+                    <option value={PaymentMethodEnum.Cash}>Cash</option>
+                  </select>
+                  <div className="h-full text-sm flex flex-col items-center">
+                    <div className="w-[180px] py-3 text-bluishBlack font-bold">Attach voucher</div>
+                    <UploadVoucher
+                      image={payment.image}
+                      setImage={setImage}
+                      setSelectedFile={setSelectedFile}
+                      paymentMethod={payment.paymentMethod}
+                    />
+                  </div>
+                </div>
               </div>
               <div className="relative w-full h-[40px] mb-7">
                 {payment.amount !== '' && <span className="absolute left-2 top-2 font-bold">$</span>}
@@ -190,7 +235,10 @@ const UserCreatePayments = ({ setIsCreateViewOpen, setIsCreatedPayment }: Props)
                   type={'text'}
                   placeholder={'Amount'}
                   value={payment.amount}
-                  className="w-full h-[40px] rounded-lg px-5 pt-2 pb-2.5 placeholder:text-sm placeholder:text-grey placeholder:italic border-2 border-black"
+                  className="w-full h-[40px] rounded-lg
+                              px-5 pt-2 pb-2.5 placeholder:text-sm
+                              placeholder:text-grey placeholder:italic
+                              border-[1.5px] border-bluishBlack"
                 />
               </div>
               <textarea
@@ -199,24 +247,34 @@ const UserCreatePayments = ({ setIsCreateViewOpen, setIsCreatedPayment }: Props)
                 onChange={handleChange}
                 placeholder={'Note'}
                 value={payment.note}
-                className="w-full h-[83px] rounded-lg p-4 placeholder:text-sm placeholder:text-grey placeholder:italic border-2 border-black mb-7"
+                className="w-full h-[110px] rounded-lg px-4 pt-2
+                            placeholder:text-sm placeholder:text-grey
+                            placeholder:italic border-[1.5px]
+                            border-bluishBlack mb-7"
               />
             </div>
-            <div className={'w-[364px] flex items-center pb-7'}>
-              <div className={`flex flex-col w-full ${payment.image !== '' ? 'h-full justify-center' : 'gap-y-4'}`}>
+            <div className={'hidden md:flex w-[280px] items-center pb-7'}>
+              <div
+                className={`pl-4 flex flex-col gap-y-8 w-full ${
+                  payment.image !== '' ? 'h-full justify-center' : 'gap-y-4'
+                }`}
+              >
                 <select
                   onChange={(e) => {
                     handleChange(e)
                   }}
                   name={'paymentMethod'}
                   value={payment.paymentMethod}
-                  className="w-full h-[40px] rounded-lg px-4 pt-2 pb-2.5 text-sm text-grey italic font-normal border-2 border-black"
+                  className="w-full h-[40px] rounded-lg
+                              px-4 pt-2 pb-2.5 text-sm
+                              text-grey italic font-normal
+                              border-[1.5px] border-bluishBlack"
                 >
                   <option value={PaymentMethodEnum.Transfer}>Transfer</option>
                   <option value={PaymentMethodEnum.Cash}>Cash</option>
                 </select>
-                <div className="h-full text-sm flex justify-between items-center">
-                  <div>Attach voucher</div>
+                <div className="h-full text-sm flex flex-col items-center">
+                  <div className="w-[180px] py-3 text-bluishBlack font-bold">Attach voucher</div>
                   <UploadVoucher
                     image={payment.image}
                     setImage={setImage}
@@ -227,11 +285,14 @@ const UserCreatePayments = ({ setIsCreateViewOpen, setIsCreatedPayment }: Props)
               </div>
             </div>
           </div>
-          <div className={'w-full flex justify-center mt-[68px]'}>
+          <div className={'w-full flex justify-center md:mt-[28px]'}>
             <input
               disabled={isSubmitDisabled()}
               type={'submit'}
-              className="text-lg text-white py-2 bg-blueDark disabled:opacity-40 disabled:border-0 rounded-lg border-2 border-black w-[363px]"
+              className="text-lg text-white py-2
+                          bg-blueDark disabled:opacity-40
+                          disabled:border-0 rounded-lg
+                          border-2 border-black w-[363px]"
               value={'Report payment'}
             />
           </div>

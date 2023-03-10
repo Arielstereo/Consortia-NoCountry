@@ -1,5 +1,5 @@
-
 import { userStore } from '../../store/user'
+import { useTitle } from '../../store/title'
 
 interface Props {
   setMenu: React.Dispatch<React.SetStateAction<string>>
@@ -7,6 +7,9 @@ interface Props {
 
 const MenuMobile = ({ setMenu }: Props) => {
   const user = userStore((state) => state.userData)
+
+  const setTitle = useTitle((state) => state.setTitle)
+  setTitle('Menu')
 
   return (
     <div className=" text-[#324054] text-base">

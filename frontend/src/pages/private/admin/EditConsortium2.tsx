@@ -17,6 +17,7 @@ import getUserByIdService from '../../../services/getUserByIdService'
 import { useAuthStore } from '../../../store/auth'
 import { userStore } from '../../../store/user'
 import { isValidApt } from '../../../utils/validationUtils'
+import { useTitle } from '../../../store/title'
 
 const EditConsortium2 = () => {
   const userId = useAuthStore((state) => state.id)
@@ -37,13 +38,21 @@ const EditConsortium2 = () => {
   const [showModal, setShowModal] = useState(false)
   const [modalMsg, setModalMsg] = useState('')
 
+  const [deleteModal, setDeleteModal] = useState(false)
+  const [okModal, setOkModal] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [msg, setMsg] = useState('')
+
   const defaultImage = 'https://res.cloudinary.com/dozwd1ssj/image/upload/v1677157941/edit_lgdzbk.png'
   const messageLoading = 'Loading Consortium...'
   const messageError = 'Sorry, there was an error retrieving the data from the server.<br /> Please try again later.'
 
-  const getConsortium = async (idCons: string) => {
-    const consort = await getConsortiumService(idCons)
+  const setTitle = useTitle((state) => state.setTitle)
 
+  const getConsortium = async (idCons: string) => {
+    setTitle('Consortium')
+    const consort = await getConsortiumService(idCons)
+    setTitle(consort.address)
     setConsortium({
       ...consortium,
       name: consort.name,
@@ -131,6 +140,13 @@ const EditConsortium2 = () => {
             setModalMsg('Your Consortium has been updated')
             setShowModal(true)
             setIsSavingData(false)
+            getUser()
+              .then((response) => {
+                console.log(response)
+              })
+              .catch((error) => {
+                console.log(error)
+              })
           })
           .catch((error) => {
             console.log(error)
@@ -138,10 +154,6 @@ const EditConsortium2 = () => {
             setShowModal(true)
             setIsSavingData(false)
           })
-
-        getUser()
-          .then((response) => { console.log(response) })
-          .catch((error) => { console.log(error) })
       } catch (error) {
         setModalMsg('An error has occurred, please try again later or make sure that you have admin privileges')
         setShowModal(true)
@@ -165,9 +177,19 @@ const EditConsortium2 = () => {
 
   const handleDelete = async () => {
     if (id) {
-      const res = await deleteConsortiumService(id, userId)
-      console.log(res)
-      console.log('deleted')
+      try {
+        setLoading(true)
+        await deleteConsortiumService(id, userId)
+        setMsg('The consortium has benn deleted')
+        setLoading(false)
+        setDeleteModal(false)
+        setOkModal(true)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        getUser()
+      } catch (error) {
+        setLoading(false)
+        setMsg('An error ocurred')
+      }
     }
   }
 
@@ -180,7 +202,7 @@ const EditConsortium2 = () => {
         <button
           onClick={() => {
             setShowModal(false)
-            navigate('/admin', { state: 'My consortiums' })
+            navigate('/admin', { state: { show: 'My consortiums' } })
           }}
           className="bg-blue text-white text-lg w-14 h-10 rounded-2xl mt-6"
         >
@@ -189,7 +211,7 @@ const EditConsortium2 = () => {
       </BlueModal>
       <section className="pb-32">
         <Container>
-          <div>
+          <div className=''>
             <div
               className="flex font-bold text-xl
                                text-blueDark mt-10
@@ -225,7 +247,7 @@ const EditConsortium2 = () => {
               >
                 <div
                   className="overflow-hidden relative
-                               items-center flex mb-10"
+                               items-center flex mb-10 max-w-[270px] max-h-[160px] border"
                 >
                   <ImageUploader
                     setImage={setImage}
@@ -237,10 +259,10 @@ const EditConsortium2 = () => {
                 </div>
                 <div>
                   <form
-                    className="w-72 grid grid-flow-row md:w-[30rem]"
+                    className=" max-w-[95%] mx-auto grid grid-flow-row md:w-[30rem]"
                     onSubmit={handleSubmit}
                   >
-                    <div className="grid grid-flow-col grid-rows-2 gap-x-10">
+                    <div className="grid grid-flow-col grid-rows-2 gap-x-2 sm:gap-x-10">
                       <div className="relative">
                         <h5 className=" font-bold text-lg text-blueDark text-start">Name</h5>
                         <input
@@ -333,25 +355,60 @@ const EditConsortium2 = () => {
                       }
                       className="w-[250px] mt-10 disabled:bg-gray-500
                                  text-center text-white rounded-md px-10
-                                py-3 bg-blueDark ml-auto"
+                                py-3 bg-blueDark mx-auto sm:ml-auto sm:mr-0"
                       type="submit"
                     >
                       {isSavingData ? <PulseLoader color="white" /> : 'Save changes'}
                     </button>
                   </form>
+                <button
+                  className=" block mx-auto sm:ml-auto sm:mr-0  mt-10 text-center
+            text-white rounded-md
+            px-10 py-3 bg-blueDark"
+                  onClick={() => {
+                    setDeleteModal(true)
+                  }}
+                >
+                  Delete Consortium
+                </button>
                 </div>
               </div>
             )}
           </div>
-          <button
-            className="mt-10 text-center
-                        text-white rounded-md
-                        px-10 py-3 bg-blueDark"
-            onClick={handleDelete}
-          >
-            Delete Consortium
-          </button>
         </Container>
+        <BlueModal isOpen={deleteModal}>
+          <p>Are you sure to delete this consortium?</p>
+          <button
+            onClick={() => {
+              // eslint-disable-next-line @typescript-eslint/no-floating-promises
+              handleDelete()
+              setDeleteModal(false)
+            }}
+            className="bg-blue text-white text-lg w-20 rounded-2xl mt-6 mx-4 h-[29px]"
+          >
+            {loading ? <PulseLoader color="white" /> : 'YES'}
+          </button>
+          <button
+            onClick={() => {
+              setDeleteModal(false)
+            }}
+            className=" bg-blueDark text-white text-lg w-20 rounded-2xl mt-6 mx-4 border-[1.5px] border-blue h-[29px]"
+          >
+            NO
+          </button>
+        </BlueModal>
+        <BlueModal isOpen={okModal}>
+          <h4>{msg}</h4>
+          <button
+            onClick={() => {
+              setOkModal(false)
+              navigate('/admin', { state: { show: 'My consortiums' } })
+            }}
+            className="bg-blue text-white text-lg w-14 h-10 rounded-2xl mt-6"
+          >
+            OK
+          </button>
+        </BlueModal>
       </section>
     </>
   )

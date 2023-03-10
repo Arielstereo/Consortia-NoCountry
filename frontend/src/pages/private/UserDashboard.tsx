@@ -31,9 +31,9 @@ const UserDashboard = () => {
     <HeroUser>
       <div className="hidden sm:inline w-full h-fit px-10">
         <div className="flex min-h-[560px] pt-12 justify-center">
-          <div className="hidden sm:inline bg-[#BFD5FF] bg-opacity-70 min-w-[100px] lg:min-w-[268px] border-2 border-black rounded-lg p-5 relative">
+          <div className="hidden sm:inline bg-[#6096B4] bg-opacity-98 min-w-[100px] lg:min-w-[268px]  rounded-lg rounded-r-none p-5 relative">
             <div className="lg:flex mt-5 mb-3 lg:mb-10 text-center ">
-              <div className="rounded-full h-[65px] lg:h-[90px] w-[65px] lg:w-[90px] overflow-hidden border-2 border-black relative mx-auto">
+              <div className="rounded-full h-[65px] lg:h-[90px] w-[65px] lg:w-[90px] overflow-hidden border-2 border-[#002A61] relative mx-auto">
                 <img
                   className="object-cover h-full lg:h-[90px] min-w-full"
                   src={user?.img || defaultImg}
@@ -47,7 +47,7 @@ const UserDashboard = () => {
                 {user?.role === 'tenant' && <p>Owner</p>}
               </div>
             </div>
-            <div className={`block ${menu === 'profile' ? 'font-bold lg:bg-[#EFF6FF] rounded-md' : ''}`}>
+            <div className={`block ${menu === 'profile' ? 'font-bold lg:bg-[#EFF6FF] rounded-md' : 'font-semibold'}`}>
               <button
                 className="flex items-center py-3"
                 onClick={() => {
@@ -55,16 +55,20 @@ const UserDashboard = () => {
                 }}
               >
                 <img
-                  src="/assets/icons/Person.svg"
+                  src="https://res.cloudinary.com/dozwd1ssj/image/upload/v1677967555/icons/Person_2_lvcsuj.png"
                   alt=""
                   className="h-5 mx-4 lg:mx-2"
                 />
-                <span className="hidden lg:inline">My Profile</span>
+                <span className="hidden text-[#002A61] lg:inline">My Profile</span>
               </button>
             </div>
             {user?.role === 'tenant' && (
               <>
-                <div className={`block ${menu === 'information' ? 'font-bold lg:bg-[#EFF6FF] rounded-md' : ''}`}>
+                <div
+                  className={`block ${
+                    menu === 'information' ? 'font-bold lg:bg-[#EFF6FF] rounded-md' : 'font-semibold'
+                  }`}
+                >
                   <button
                     className="flex items-center py-3"
                     onClick={() => {
@@ -72,14 +76,16 @@ const UserDashboard = () => {
                     }}
                   >
                     <img
-                      src="/assets/icons/Info.svg"
+                      src="https://res.cloudinary.com/dozwd1ssj/image/upload/v1677967215/icons/Info_zfhuj5.png"
                       alt=""
                       className="h-5 mx-4 lg:mx-2"
                     />
-                    <span className="hidden lg:inline">Information</span>
+                    <span className="hidden text-[#002A61] lg:inline">Information</span>
                   </button>
                 </div>
-                <div className={`block ${menu === 'payments' ? 'font-bold lg:bg-[#EFF6FF] rounded-md' : ''}`}>
+                <div
+                  className={`block ${menu === 'payments' ? 'font-bold lg:bg-[#EFF6FF] rounded-md' : 'font-semibold'}`}
+                >
                   <button
                     className="flex items-center py-3"
                     onClick={() => {
@@ -87,14 +93,16 @@ const UserDashboard = () => {
                     }}
                   >
                     <img
-                      src="/assets/icons/Payments.svg"
+                      src="https://res.cloudinary.com/dozwd1ssj/image/upload/v1677967629/icons/Payments_n7zpay.png"
                       alt=""
                       className="h-5 mx-4 lg:mx-2"
                     />
-                    <span className="hidden lg:inline">My Payments</span>
+                    <span className="hidden text-[#002A61] lg:inline">My Payments</span>
                   </button>
                 </div>
-                <div className={`block ${menu === 'amenities' ? 'font-bold lg:bg-[#EFF6FF] rounded-md' : ''}`}>
+                <div
+                  className={`block ${menu === 'amenities' ? 'font-bold lg:bg-[#EFF6FF] rounded-md' : 'font-semibold'}`}
+                >
                   <button
                     className="flex items-center py-3"
                     onClick={() => {
@@ -102,14 +110,16 @@ const UserDashboard = () => {
                     }}
                   >
                     <img
-                      src="/assets/icons/Amenities.svg"
+                      src="https://res.cloudinary.com/dozwd1ssj/image/upload/v1677967774/icons/u_analysis_zbuwsz.png"
                       alt=""
                       className="h-5 mx-4 lg:mx-2"
                     />
-                    <span className="hidden lg:inline">Ameneties</span>
+                    <span className="hidden text-[#002A61] lg:inline">Ameneties</span>
                   </button>
                 </div>
-                <div className={`block ${menu === 'complaint' ? 'font-bold lg:bg-[#EFF6FF] rounded-md' : ''}`}>
+                <div
+                  className={`block ${menu === 'complaint' ? 'font-bold lg:bg-[#EFF6FF] rounded-md' : 'font-semibold'}`}
+                >
                   <button
                     className="flex items-center py-3"
                     onClick={() => {
@@ -117,11 +127,11 @@ const UserDashboard = () => {
                     }}
                   >
                     <img
-                      src="/assets/icons/Complaints.svg"
+                      src="https://res.cloudinary.com/dozwd1ssj/image/upload/v1677969657/icons/u_create-dashboard_fboh9l.png"
                       alt=""
                       className="h-5 mx-4 lg:mx-2"
                     />
-                    <span className="hidden lg:inline">Complaints</span>
+                    <span className="hidden text-[#002A61] lg:inline">Complaints</span>
                   </button>
                 </div>
               </>
@@ -133,14 +143,14 @@ const UserDashboard = () => {
               }}
             >
               <img
-                src="/assets/icons/Logout2.svg"
+                src="https://res.cloudinary.com/dozwd1ssj/image/upload/v1677969759/icons/u_sign-out-alt_algjoz.png"
                 alt=""
                 className="h-5 mx-4 lg:mx-2"
               />
-              <span className="hidden lg:inline">Logout</span>
+              <span className="hidden text-[#002A61] lg:inline">Logout</span>
             </button>
           </div>
-          <div className="bg-[#B4CAE7] bg-opacity-50 w-[880px] border border-black rounded-lg  pb-6">
+          <div className="bg-[#C4E0E5] bg-opacity-98 w-[880px] border rounded-lg rounded-l-none pb-6">
             {menu === 'profile' && <UserProfileData />}
             {menu === 'information' && <UserInformation />}
             {menu === 'amenities' && <MyReserves />}

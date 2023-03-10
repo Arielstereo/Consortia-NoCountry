@@ -9,7 +9,7 @@ const MobileBar = () => {
 
   return (
     <div className={`${!showNav ? 'hidden' : ' sm:hidden'}`}>
-      <div className=" shadow-lg bg-white w-[90vw] h-[60px] rounded-lg flex px-5 justify-between items-center z-50">
+      <div className={`shadow-lg bg-white w-[90vw] h-[60px] rounded-lg flex px-5 ${role === 'tenant' ? 'justify-between' : 'justify-around'} items-center z-50 `}>
         <div>
           <Link
             to={`${role === 'admin' ? '/admin' : '/user'}`}
@@ -25,7 +25,7 @@ const MobileBar = () => {
             <div className=" w-12 h-1 bg-blueDark rounded-full"></div>
           )}
         </div>
-        {role === 'tenant' ? (
+        {role === 'tenant' &&
           <Link to="/user/notifications">
             <img
               src="/assets/icons/Events.svg"
@@ -33,14 +33,7 @@ const MobileBar = () => {
               className=" h-12"
             />
             {path === '/user/notifications' && <div className=" w-12 h-1 bg-blueDark rounded-full"></div>}
-          </Link>
-        ) : (
-          <img
-            src="/assets/icons/Events.svg"
-            alt=""
-            className=" h-12"
-          />
-        )}
+          </Link>}
         <Link
           to={`${role === 'admin' ? '/admin' : '/user'}`}
           state={{ show: 'profile' }}

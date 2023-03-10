@@ -18,6 +18,7 @@ interface UserConsortia {
   admin: Admin
   img?: string
   name: string
+  status: string
 }
 
 interface Admin {

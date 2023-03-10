@@ -61,7 +61,7 @@ const PaymentsTable = ({ data, setData, dataToCompare, filterValue, setIsDataMod
   }
 
   return (
-    <table className="text-left font-inter text-lg">
+    <table className="text-left font-inter text-[10px] md:text-base lg:text-lg mt-8">
       {modal && (
         <DetailsModal
           setModal={setModal}

@@ -34,21 +34,23 @@ const UserProfile = () => {
     <div className="hidden sm:inline">
       {!edit ? (
         <>
-          <div className="flex font-bold text-xl text-blueDark ml-11 mt-7">
+          <div className="flex  gap-4 items-center font-bold text-xl text-blueDark ml-11 mt-7">
             <h3>My Profile</h3>
-            <img
-              src="/assets/icons/Edit.svg"
-              alt=""
-              className=" h-6 ml-3 cursor-pointer"
-              onClick={() => {
-                setEdit(true)
-              }}
-            />
+            <div className="flex justify-items-center items-center text-white bg-[#002A61] p-2 w-10 h-10 border rounded-[50%]">
+              <img
+                src="https://res.cloudinary.com/dozwd1ssj/image/upload/v1677969825/icons/Vector_cqc24b.png"
+                alt=""
+                className="cursor-pointer"
+                onClick={() => {
+                  setEdit(true)
+                }}
+              />
+            </div>
           </div>
           <div className=" text-center">
-            <div className=" h-[130px] w-[130px] overflow-hidden border-2 border-black rounded-lg relative mx-auto my-6">
+            <div className=" flex max-h-[130px] max-w-[130px] overflow-hidden border-2 border-[#002A61] rounded-lg relative mx-auto my-6">
               <img
-                className="object-cover h-[130px] min-w-full"
+                className=" object-cover"
                 src={user?.img || defaultImg}
                 alt=""
               />

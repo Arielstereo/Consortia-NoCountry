@@ -32,12 +32,15 @@ const LoginMobile = () => {
     const resp = await loginService(data)
 
     if (!resp.ok) {
-      if (resp.msg === 'Email or password is invalid') setLogError('invalid')
-      if (resp.msg === 'Unverified email') setLogError('unverified')
+      if (resp.msg === 'Passwords are different') setLogError('password invalid')
+      if (resp.msg === 'Email or password is invalid') setLogError('email invalid')
+      if (resp.msg === 'Unverified mail') setLogError('unverified')
+      setTimeout(() => {
+        setLogError('')
+      }, 4000)
       setLoading(false)
     }
     if (resp.ok) {
-      console.log('resp', resp)
       setToken(resp.token)
       setLogError('')
       setId(resp.id)
@@ -96,7 +99,7 @@ const LoginMobile = () => {
             <input
               className={`border-2 ${
                 !errors.email ? 'border-blueDark' : 'border-red'
-              } rounded-lg h-12 px-4 mb-8 w-full placeholder:italic placeholder:text-grey bg-transparent focus:outline-none text-lg`}
+              } rounded-lg h-12 px-4 w-full placeholder:italic placeholder:text-grey bg-transparent focus:outline-none text-lg`}
               type="email"
               placeholder="Enter your email"
               autoComplete="off"
@@ -105,10 +108,16 @@ const LoginMobile = () => {
                 pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
               })}
             />
+            <div className="h-8 ml-4 text-xs text-red">
+              {errors.email?.type === 'required' && <p>E-mail is required</p>}
+              {errors.email?.type === 'pattern' && <p>It&apos;s not a valid e-mail</p>}
+              {logError === 'unverified' && <p>The email is not verified, please check your email</p>}
+              {logError === 'email invalid' && <p>The email is incorrect</p>}
+            </div>
             <input
               className={`border-2 ${
                 !errors.password ? 'border-blueDark' : 'border-red'
-              } rounded-lg h-12 px-4 mb-2 w-full placeholder:italic placeholder:text-grey bg-transparent focus:outline-none text-lg`}
+              } rounded-lg h-12 px-4 w-full placeholder:italic placeholder:text-grey bg-transparent focus:outline-none text-lg`}
               type="password"
               placeholder="Enter your password"
               {...register('password', {
@@ -116,6 +125,11 @@ const LoginMobile = () => {
                 pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
               })}
             />
+            <div className="h-4 ml-4 text-xs  text-red">
+              {errors.password?.type === 'required' && <p>Password is required</p>}
+              {errors.password?.type === 'pattern' && <p>It&apos;s not a valid password</p>}
+              {logError === 'password invalid' && <p>The password is incorrect</p>}
+            </div>
             <Link to="/resetpassword">
               <p className="text-end text-base mb-8">Forgot your password?</p>
             </Link>

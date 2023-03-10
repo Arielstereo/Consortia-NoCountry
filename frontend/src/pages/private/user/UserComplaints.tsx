@@ -4,6 +4,7 @@ import { PulseLoader } from 'react-spinners'
 import { userStore } from '../../../store/user'
 import UserComplaintService from '../../../services/UserComplaintService'
 import BlueModal from '../../../components/modal/BlueModal'
+import { useTitle } from '../../../store/title'
 
 interface ComplaintForm {
   subject: string
@@ -18,11 +19,14 @@ const UserComplaints = ({ setMenu }: Props) => {
   const [loading, setLoading] = useState(false)
   const [modalOk, setModalOk] = useState(false)
 
+  const setTitle = useTitle((state) => state.setTitle)
+  setTitle('Complaints')
+
   const {
     register,
     handleSubmit,
     formState: { isDirty, isValid },
-    reset
+    reset,
   } = useForm<ComplaintForm>({ mode: 'onTouched' })
 
   const user = userStore((state) => state.userData)
@@ -48,9 +52,9 @@ const UserComplaints = ({ setMenu }: Props) => {
 
   return (
     <div>
-      <h3 className=" text-center sm:text-start font-bold text-xl sm:ml-11 mt-7">New Complaint</h3>
+      <h3 className=" text-[#002A61] text-center sm:text-start font-bold text-xl sm:ml-11 mt-7">New Complain</h3>
       <div className=" px-4 sm:px-14 py-4">
-        <p className=' text-center sm:text-start'>Complete the following form to create a complaint to the Admin.</p>
+        <p className=" text-center sm:text-start">Complete the following form to create a complaint to the Admin.</p>
         <div className="">
           <form
             onSubmit={handleSubmit(customSubmit)}

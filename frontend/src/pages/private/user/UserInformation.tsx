@@ -1,9 +1,13 @@
 import { useState } from 'react'
 import Accordion from '../../../components/Accordion'
 import { userStore } from '../../../store/user'
+import { useTitle } from '../../../store/title'
 
 const UserInformation = () => {
   const [activeIndex, setActiveIndex] = useState('')
+
+  const setTitle = useTitle((state) => state.setTitle)
+  setTitle('Information')
 
   const user = userStore((state) => state.userData)
   const consortium = user?.consortium?.find(() => true)
@@ -11,7 +15,7 @@ const UserInformation = () => {
 
   return (
     <div>
-      <h3 className=" text-center sm:text-start font-bold text-xl sm:ml-11 mt-7">Information</h3>
+      <h3 className=" hidden sm:flex text-[#002A61] text-center sm:text-start font-bold text-xl sm:ml-11 mt-7">Information</h3>
       <div className=" px-4 sm:px-14">
         <Accordion
           title="Consortium information"

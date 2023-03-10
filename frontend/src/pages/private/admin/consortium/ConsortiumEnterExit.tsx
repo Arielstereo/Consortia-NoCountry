@@ -9,6 +9,8 @@ import createNotificationsService from '../../../../services/createNotifications
 import getNotificationsService from '../../../../services/getNotificationsService'
 import Accordion from '../../../../components/Accordion'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useTitle } from '../../../../store/title'
+import getConsortiumService from '../../../../services/getConsortiumService'
 
 interface Entrance {
   subject: string
@@ -25,6 +27,16 @@ const ConsortiumEnterExit = () => {
 
   const navigate = useNavigate()
   const { id } = useParams()
+
+  const setTitle = useTitle((state) => state.setTitle)
+
+  const getConsortium = async () => {
+    setTitle('Consortium')
+    if (id) {
+      const consortium = await getConsortiumService(id)
+      setTitle(consortium.address)
+    }
+  }
 
   const {
     register,
@@ -67,19 +79,24 @@ const ConsortiumEnterExit = () => {
     }
   }, [id, restart])
 
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    getConsortium()
+  }, [])
+
   return (
     <div className="min-h-full md:min-h-screen m-[50px] max-w-[1100px] mx-auto px-6">
       <div className="flex text-[25px] md:text-[28px] font-bold text-blueDark mt-8 sm:mt-16 mb-16">
-          <button
-            onClick={() => {
-              navigate(-1)
-            }}
-          >
-            <div className=" h-[30px] mr-5">
-              <img src={'/assets/icons/left-arrow.svg'} />
-            </div>
-          </button>
-          <h2>Entrances and Exits</h2>
+        <button
+          onClick={() => {
+            navigate(-1)
+          }}
+        >
+          <div className=" h-[30px] mr-5">
+            <img src={'/assets/icons/left-arrow.svg'} />
+          </div>
+        </button>
+        <h2>Entrances and Exits</h2>
       </div>
       <div className=" mt-6">
         {notification?.map((not, i) => (

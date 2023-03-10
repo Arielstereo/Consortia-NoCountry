@@ -1,10 +1,14 @@
 import { useState } from 'react'
 import { userStore } from '../../../store/user'
 import UserEditProfile from '../EditProfileDashboard'
+import { useTitle } from '../../../store/title'
 
 const Profile = () => {
   const user = userStore((state) => state.userData)
   const [edit, setEdit] = useState(false)
+
+  const setTitle = useTitle((state) => state.setTitle)
+  setTitle('Profile')
 
   return (
     <section>

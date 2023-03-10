@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import ImageUploader from '../../components/ImageUploader'
 import BlueModal from '../../components/modal/BlueModal'
-import { UserProfile } from '../../interfaces/userInterfaces'
+import { IResponseUser, UserProfile } from '../../interfaces/userInterfaces'
 import editProfileService from '../../services/editProfileService'
 import { userStore } from '../../store/user'
 import { isValidApt, isValidName, isValidNumber } from '../../utils/validationUtils'
+import { useTitle } from '../../store/title'
+import getUserByIdService from '../../services/getUserByIdService'
+import { useAuthStore } from '../../store/auth'
 
 interface EditProfileProps {
   preloadValues: UserProfile
@@ -16,7 +19,22 @@ const EditProfile = ({ preloadValues, setEdit }: EditProfileProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
 
+  const userId = useAuthStore((state) => state.id)
+  const setUser = userStore((state) => state.setData)
+
+  const setTitle = useTitle((state) => state.setTitle)
+  setTitle('Change profile')
+
   const setStoreData = userStore((state) => state.setData)
+
+  const getUser = async () => {
+    try {
+      const res = (await getUserByIdService(userId)) as IResponseUser
+      setUser(res.user)
+    } catch (error) {
+      console.log('error')
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -27,6 +45,8 @@ const EditProfile = ({ preloadValues, setEdit }: EditProfileProps) => {
       setIsSubmitting(false)
       setStoreData(resp.data.user)
       setIsSubmitted(true)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      getUser()
     }
   }
 

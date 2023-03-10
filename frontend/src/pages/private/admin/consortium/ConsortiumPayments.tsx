@@ -6,6 +6,8 @@ import { PaymentsValues } from '../../../../interfaces/paymentsInterfaces'
 import getConsortiumPayments from '../../../../services/getConsortiumPayments'
 import { changePaymentStatusService } from '../../../../services/changePaymentStatusService'
 import DynamicStatusView from '../../../../components/status/DynamicStatusView'
+import { useTitle } from '../../../../store/title'
+import getConsortiumService from '../../../../services/getConsortiumService'
 
 const ConsortiumPayments = () => {
   const [data, setData] = useState<PaymentsValues[]>([])
@@ -22,9 +24,21 @@ const ConsortiumPayments = () => {
   const { id } = useParams()
   const navigate = useNavigate()
 
+  const setTitle = useTitle((state) => state.setTitle)
+
+  const getConsortium = async () => {
+    setTitle('Consortium')
+    if (id) {
+      const consortium = await getConsortiumService(id)
+      setTitle(consortium.address)
+    }
+  }
+
   useEffect(() => {
     setLoadingPayments(true)
     getPayments()
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    getConsortium()
   }, [])
 
   const getPayments = () => {
@@ -231,12 +245,12 @@ const ConsortiumPayments = () => {
 
   return (
     <div
-      className="w-full min-h-[780px] mb-0 md:mb-[50px] bg-white"
+      className="w-full min-h-[780px] mb-0 pb-44 bg-white"
       ref={ref}
     >
       <Container>
         <div className="flex text-[25px] md:text-[28px] font-bold text-blueDark mt-8 md:mt-16 mb-8">
-        <button
+          <button
             onClick={() => {
               navigate(-1)
             }}

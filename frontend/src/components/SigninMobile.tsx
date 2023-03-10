@@ -28,6 +28,9 @@ const SigninMobile = () => {
     const resp = await registerService({ name, lastname, password, email })
     if (!resp.ok) {
       if (resp.msg === 'Email used') setMailError(true)
+      setTimeout(() => {
+        setMailError(false)
+      }, 4000)
       setLoading(false)
     } else {
       setMailError(false)
@@ -88,25 +91,31 @@ const SigninMobile = () => {
             <input
               className={`border-2 ${
                 !errors.name ? 'border-blueDark' : 'border-red'
-              } rounded-lg h-12 px-4 mb-4 w-full placeholder:italic placeholder:text-grey bg-transparent focus:outline-none text-lg`}
+              } rounded-lg h-12 px-4 w-full placeholder:italic placeholder:text-grey bg-transparent focus:outline-none text-lg`}
               type="text"
               placeholder="Enter your name"
               autoComplete="off"
               {...register('name', { required: true })}
             />
+             <div className="h-4 ml-4 text-xs  text-red">
+              {errors.name?.type === 'required' && <p>Name is required</p>}
+            </div>
             <input
               className={`border-2 ${
                 !errors.lastname ? 'border-blueDark' : 'border-red'
-              } rounded-lg h-12 px-4 mb-4 w-full placeholder:italic placeholder:text-grey bg-transparent focus:outline-none text-lg`}
+              } rounded-lg h-12 px-4 w-full placeholder:italic placeholder:text-grey bg-transparent focus:outline-none text-lg`}
               type="text"
               placeholder="Enter your lastname"
               autoComplete="off"
               {...register('lastname', { required: true })}
             />
+            <div className="h-4 ml-4 text-xs  text-red">
+              {errors.lastname?.type === 'required' && <p>Lastname is required</p>}
+            </div>
             <input
               className={`border-2 ${
                 !errors.email ? 'border-blueDark' : 'border-red'
-              } rounded-lg h-12 px-4 mb-4 w-full placeholder:italic placeholder:text-grey bg-transparent focus:outline-none text-lg`}
+              } rounded-lg h-12 px-4 w-full placeholder:italic placeholder:text-grey bg-transparent focus:outline-none text-lg`}
               type="email"
               placeholder="Enter your email"
               autoComplete="off"
@@ -115,10 +124,15 @@ const SigninMobile = () => {
                 pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
               })}
             />
+            <div className="h-4 ml-4 text-xs  text-red">
+              {errors.email?.type === 'required' && <p>E-mail is required</p>}
+              {errors.email?.type === 'pattern' && <p>It&apos;s not a valid e-mail</p>}
+              {mailError && <p>Email already used</p>}
+            </div>
             <input
               className={`border-2 ${
                 !errors.password ? 'border-blueDark' : 'border-red'
-              } rounded-lg h-12 px-4 mb-4 w-full placeholder:italic placeholder:text-grey bg-transparent focus:outline-none text-lg`}
+              } rounded-lg h-12 px-4 w-full placeholder:italic placeholder:text-grey bg-transparent focus:outline-none text-lg`}
               type="password"
               placeholder="Enter your password"
               {...register('password', {
@@ -126,10 +140,14 @@ const SigninMobile = () => {
                 pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
               })}
             />
+             <div className="h-4 ml-4 text-xs  text-red">
+              {errors.password?.type === 'required' && <p>Password is required</p>}
+              {errors.password?.type === 'pattern' && <p className=' -ml-4'>8 characters, uppercase, lowercase, number and special</p>}
+            </div>
             <input
               className={`border-2 ${
                 !errors.password2 ? 'border-blueDark' : 'border-red'
-              } rounded-lg h-12 px-4 mb-4 w-full placeholder:italic placeholder:text-grey bg-transparent focus:outline-none text-lg`}
+              } rounded-lg h-12 px-4 w-full placeholder:italic placeholder:text-grey bg-transparent focus:outline-none text-lg`}
               type="password"
               placeholder="Repeat your password"
               {...register('password2', {
@@ -137,6 +155,25 @@ const SigninMobile = () => {
                 validate: (val: string) => watch('password') === val,
               })}
             />
+            <div className="h-4 ml-4 text-xs  text-red">
+              {errors.password2?.type === 'validate' && <p>Passwords do not match</p>}
+            </div>
+            <div className="flex justify-start mb-6">
+              <input
+                type="checkbox"
+                className="w-7 mr-2"
+                {...register('check', { required: true })}
+              />
+              <h3 className="text-sm">
+                I agree to the
+                <Link
+                  to=""
+                  className="ml-2 underline text-blueDark font-bold mb-5"
+                >
+                 terms and conditions.
+                </Link>
+              </h3>
+            </div>
             <div>
               <button
                 type="submit"

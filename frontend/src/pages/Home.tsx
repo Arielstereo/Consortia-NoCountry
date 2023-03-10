@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom'
 import Container from '../components/Container'
 import Hero from '../components/Hero'
 import WhatsappDialog from '../components/WhatsappDialog'
+import { useAuthStore } from '../store/auth'
 
 const Home = () => {
   const [show, setShow] = useState(false)
+  const role = useAuthStore((state) => state.role)
+
   const check = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +170,7 @@ const Home = () => {
         </div>
         <div className="mt-6">
           <Link
-            to="/login"
+            to={ !role || role === '' ? '/login' : (role === 'admin' ? '/admin' : '/user')}
             className="ml-40 border-2 border-blueDark py-4 px-10 rounded-lg shadow-2xl"
           >
             <span className="text-blueDark text-lg">Get Started!</span>

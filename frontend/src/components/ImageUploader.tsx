@@ -73,7 +73,7 @@ const ImageUploader = ({ setImage, image, preset, width = 130, height = 130 }: P
 
   return (
     <div
-      className={`h-[${height}px] w-[${width}px]
+      className={`flex max-h-[${height}px] max-w-[${width}px]
                   overflow-hidden border-2
                   border-black rounded-lg
                   relative mx-auto my-6`}
@@ -97,6 +97,7 @@ const ImageUploader = ({ setImage, image, preset, width = 130, height = 130 }: P
       <img
         src={image}
         alt=""
+        className=' object-cover'
       />
       <input
         id={id}

@@ -6,7 +6,7 @@
 
 <h3 align="center" >We have the perfect solution for you! Our Condominium Management application allows you to manage everything related to your condominium or building in an efficient and organized way.</h3> 
 <br/>
-<p align="center" ><img align="center"src="https://res.cloudinary.com/dozwd1ssj/image/upload/v1677762524/nuevo_logo_bold-removebg-preview_2_yfyw9i.png"></p> 
+<p align="center" ><img align="center"src="https://res.cloudinary.com/dozwd1ssj/image/upload/v1678042389/Header_Emails_yyqugz.png"></p> 
 
 <p align = "center"> <img src = "[https://i.ibb.co/TLGMJGz/app.png](https://i.ibb.co/TLGMJGz/app.png)" /> </p>
 

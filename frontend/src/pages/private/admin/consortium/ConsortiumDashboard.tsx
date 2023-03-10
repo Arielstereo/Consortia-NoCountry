@@ -1,6 +1,8 @@
-import { type FC } from 'react'
+import { useEffect, type FC } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { userStore } from '../../../../store/user'
+import getConsortiumService from '../../../../services/getConsortiumService'
+import { useTitle } from '../../../../store/title'
 
 interface ConsortiumDashboardProps {
   name?: string
@@ -8,6 +10,21 @@ interface ConsortiumDashboardProps {
 export const ConsortiumDashboard: FC<ConsortiumDashboardProps> = ({ name = 'Admin' }: ConsortiumDashboardProps) => {
   const { id } = useParams<{ id: string }>()
   const user = userStore((state) => state.userData)
+
+  const setTitle = useTitle((state) => state.setTitle)
+
+  const getConsortium = async () => {
+    setTitle('Consortium')
+    if (id) {
+      const consortium = await getConsortiumService(id)
+      setTitle(consortium.address)
+    }
+  }
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    getConsortium()
+  }, [])
 
   const actions = [
     {
@@ -50,14 +67,14 @@ export const ConsortiumDashboard: FC<ConsortiumDashboardProps> = ({ name = 'Admi
   return (
     <div className="m-auto max-w-screen-xl flex flex-col justify-start items-center gap-4 pb-10 relative mb-32">
       <div
-        className="text-blueDark w-full p-10 max-w-screen-xl m-auto text-2xl font-bold font-inter text-center
+        className="text-blueDark w-full p-4 sm:p-10 max-w-screen-xl m-auto text-2xl font-bold font-inter text-center
         md:text-left md:text-3xl
         lg:pl-28 flex
         "
       >
         <Link
           to="/admin"
-          state='My consortiums'
+          state={{ show: 'My consortiums' }}
         >
           <img
             className="w-[14px] mr-6"

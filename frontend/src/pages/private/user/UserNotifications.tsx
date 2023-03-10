@@ -10,6 +10,7 @@ import createNotificationsService from '../../../services/createNotificationsSer
 import getNotificationsService from '../../../services/getNotificationsService'
 import Accordion from '../../../components/Accordion'
 import { useNavigate } from 'react-router'
+import { useTitle } from '../../../store/title'
 
 interface Entrance {
   subject: string
@@ -23,6 +24,9 @@ const UserNotifications = () => {
   const [modalOk, setModalOk] = useState(false)
   const [activeIndex, setActiveIndex] = useState('')
   const [restart, setRestart] = useState(false)
+
+  const setTitle = useTitle((state) => state.setTitle)
+  setTitle('Notifications')
 
   const navigate = useNavigate()
 
@@ -70,7 +74,7 @@ const UserNotifications = () => {
 
   return (
     <div className=" min-h-screen m-[50px] max-w-[1100px] mx-auto sm:px-6">
-      <div className=" flex text-[28px] font-bold text-blueDark mt-16 mb-8">
+      <div className=" hidden sm:flex text-[28px] font-bold text-blueDark mt-16 mb-8">
           <button
           className='hidden sm:inline'
             onClick={() => {

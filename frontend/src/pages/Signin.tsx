@@ -107,7 +107,7 @@ const Signin = () => {
           )}
           {errors.password2?.type === 'validate' && (
             <p className="absolute w-full h-8 px-8 bg-red rounded-b-sm border border-black text-lg font-sans text-white">
-              Passwords do no match
+              Passwords do not match
             </p>
           )}
           {errors.password?.type === 'pattern' && (

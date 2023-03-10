@@ -11,7 +11,7 @@ const BlueModal = (props: ModalType) => {
     <>
       {props.isOpen && (
         <div
-          className="fixed flex justify-center align-middle items-center top-0 left-0 z-10 w-screen h-screen outline-none overflow-x-hidden overflow-y-auto bg-black bg-opacity-70"
+          className="fixed flex justify-center align-middle items-center top-0 left-0 z-20 w-screen h-screen outline-none overflow-x-hidden overflow-y-auto bg-black bg-opacity-70"
           onClick={props.toggle}
         >
           <div

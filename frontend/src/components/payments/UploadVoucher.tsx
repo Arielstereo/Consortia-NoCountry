@@ -36,22 +36,32 @@ const UploadVoucher = ({ image, setImage, setSelectedFile, paymentMethod }: Prop
       {image !== '' && (
         <div
           onClick={changePicture}
-          className={'right-0 top-0 w-[230px] h-[150px] border-2 border-black bg-cover rounded-lg animate-swingInTop'}
+          className="right-0 top-0 w-[230px] h-[150px]
+                      border-2 border-black bg-cover
+                      rounded-lg animate-swingInTop"
           style={{ backgroundImage: `url(${image})`, backgroundPosition: 'center center' }}
         ></div>
       )}
       {image === '' && paymentMethod === PaymentMethodEnum.Transfer && (
         <label
           onClick={changePicture}
-          className="w-[180px] h-[40px] bg-[rgba(49,103,1744,0.84)] disabled:bg-[rgba(49,103,1744,0.50)] border-2 border-black disabled:border-0 disabled:text-grey rounded-lg px-6 flex justify-between items-center"
+          className="w-[180px] h-[44px]
+                       disabled:bg-[rgba(49,103,1744,0.50)]
+                       border-[1.5px] hover:bg-bluishBlack
+                       hover:text-white text-bluishBlack
+                       ease-out hover:font-bold border-bluishBlack
+                       disabled:border-0 disabled:text-grey rounded-lg
+                       px-6 flex justify-center items-center"
         >
-          <img src="../assets/Pdf.svg" />
-          <span className="text-sm">Upload voucher</span>
+          <span className="text-sm text-inter">Upload voucher</span>
         </label>
       )}
       {paymentMethod === PaymentMethodEnum.Cash && (
-        <label className="w-[180px] h-[40px] bg-[rgba(49,103,1744,0.84)] bg-[rgba(49,103,1744,0.50)] border-0 text-grey rounded-lg px-6 flex justify-between items-center">
-          <img src="../assets/Pdf.svg" />
+        <label
+          className="w-[180px] h-[40px] bg-[rgba(49,103,1744,0.84)]
+                            bg-[rgba(49,103,1744,0.50)] border-0 text-grey
+                            rounded-lg px-6 flex justify-between items-center"
+        >
           <span className="text-sm">Upload voucher</span>
         </label>
       )}

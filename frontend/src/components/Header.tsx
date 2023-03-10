@@ -7,6 +7,7 @@ import getUserByIdService from '../services/getUserByIdService'
 import { IResponseUser } from '../interfaces/userInterfaces'
 import Titles from './TitleLayout'
 import Logout from './Logout'
+import { useTitle } from '../store/title'
 
 const Header = () => {
   const [isNavOpen, setisNavOpen] = useState(false)
@@ -21,7 +22,9 @@ const Header = () => {
   const path = location.pathname
   const showNav = path.substring(0, 5) === '/user' || path.substring(0, 6) === '/admin'
 
-  const { headerTitle } = Titles()
+  const title = useTitle((state) => state.title)
+
+  // const { headerTitle } = Titles()
 
   const getUser = async () => {
     try {
@@ -86,7 +89,7 @@ const Header = () => {
               />
             </svg>
           </div>
-          <h1 className=" text-4xl text-white font-bold sm:hidden">{headerTitle}</h1>
+          <h1 className=" text-xl text-white font-bold sm:hidden">{title}</h1>
           <img
             className=" h-8 sm:hidden"
             src="/assets/icons/Notif.svg"

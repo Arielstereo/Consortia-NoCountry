@@ -5,7 +5,7 @@ import MobileBar from './MobileBar'
 
 const Layout = () => {
   return (
-    <div className="min-h-screen flex flex-col ">
+    <div className="min-h-screen flex flex-col obj ">
       <div className="min-h-fit h-[60px] sm:h-20">
         <Header />
       </div>

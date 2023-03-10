@@ -11,6 +11,7 @@ import getConsortiumService from '../../../../services/getConsortiumService'
 import { ConsortiaData } from '../../../../interfaces/consortiaInterfaces'
 import { UserProfile } from '../../../../interfaces/userInterfaces'
 import { useAuthStore } from '../../../../store/auth'
+import { useTitle } from '../../../../store/title'
 
 const ConsortiumMembers = () => {
   const [users, setUsers] = useState<UserProfile[]>([])
@@ -27,6 +28,8 @@ const ConsortiumMembers = () => {
   const { id } = useParams()
   const adminId = useAuthStore((state) => state.id)
   const navigate = useNavigate()
+
+  const setTitle = useTitle((state) => state.setTitle)
 
   const filter = (value: string) => {
     // eslint-disable-next-line array-callback-return
@@ -54,10 +57,10 @@ const ConsortiumMembers = () => {
   }
 
   const getConsortium = async () => {
+    setTitle('Consortium')
     if (id) {
       const consortium = await getConsortiumService(id)
-      console.log(consortium)
-
+      setTitle(consortium.address)
       setConsortium(consortium)
     }
   }
@@ -207,7 +210,7 @@ const ConsortiumMembers = () => {
         </button>
       </BlueModal>
       <div className="min-h-full md:min-h-screen h-fit mb-24">
-        <div className=" flex text-[28px] font-bold text-blueDark mb-8">
+        <div className=" flex text-[25px] sm:text-[28px] font-bold text-blueDark mb-8">
           <button
             onClick={() => {
               navigate(-1)
@@ -240,7 +243,7 @@ const ConsortiumMembers = () => {
             <tr className=" border-b border-b-greyLight">
               <th>Name</th>
               <th>Email</th>
-              <th>Contact</th>
+              <th className='hidden sm:table-cell '>Contact</th>
               <th></th>
             </tr>
           </thead>
@@ -253,8 +256,8 @@ const ConsortiumMembers = () => {
                 <td className="py-4">
                   {user.name} {user.lastname}
                 </td>
-                <td className="py-4">{user.email}</td>
-                <td className="py-4">{user.phone}</td>
+                <td className="py-4 max-w-[30vw] overflow-hidden sm:max-w-full">{user.email}</td>
+                <td className="hidden sm:table-cell py-4">{user.phone}</td>
                 <td className="hidden md:inline py-4 text-end">
                   <button
                     className=" bg-red text-white text-sm w-32 h-8 rounded-2xl mx-3 mt-3"

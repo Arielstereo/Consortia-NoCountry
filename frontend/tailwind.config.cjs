@@ -21,6 +21,7 @@ module.exports = {
         blueUser: '#0064EB',
         greenLight: '#4FCD3A',
         violet: '#8a2be2',
+        bluishBlack: '#324054'
       },
       fontSize: {
         '2.5xl': ['1.8rem', '2.3rem'],
